@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+{% block content %}
+    <h1>eddie soft home</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <h1 class="title mb-4"><a href="#">branch search</a></h1>
+
+        <li><input type="text" name="branch_number" placeholder="Enter branch number"></li>
+        <li><input type="text" name="staff_number" placeholder="Enter staff number"></li>
+        <li><input type="text" name="rented_video" placeholder="Enter rented video number"></li>
+        <li><input type="text" name="video" placeholder="Enter video number"></li>
+        <li><input type="text" name="category" placeholder="Enter category id"></li>
+        <li><input type="text" name="members" placeholder="Enter member number"></li>
+
+
+
+
+        <input type="submit" value="SEARCH">
+    </form>
+{% endblock content %}

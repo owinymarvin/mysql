@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+{% block content %}
+    <h1>List of videos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>catalog Number</th>
+                <th>Video Number</th>
+                <th>Title</th>
+                <th>Actor</th>
+                <th>Director</th>
+                <th>Copies</th>
+                <th>Category</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for video_item in video %}
+            <tr>
+                <td>{{ video_item.catalog_number }}</td>
+                <td>{{ video_item.video_number }}</td>
+                <td>{{ video_item.title }}</td>
+                <td>{{ video_item.actor }}</td>
+                <td>{{ video_item.director }}</td>
+                <td>{{ video_item.copies }}</td>
+                <td>{{ video_item.category_id }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

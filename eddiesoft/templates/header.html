@@ -1,0 +1,86 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+
+	
+	<div class="container-fluid">
+
+
+		<a class="navbar-brand h1 mb-0" href="{% url 'home' %}">
+			{% comment %} <img src="" alt="logo image" style="width:35px; height: 35px"/> {% endcomment %}
+			EddieSoft - Group3</a>
+
+		<!-- button will appear when navbar is medium screen. (md) -->
+		<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+
+		<div class="collapse navbar-collapse" id="navbarNav">
+
+
+			<ul class="navbar-nav ms-auto">
+				{% comment %} bootstrap options activate depending on page were on {% endcomment %} 
+				{% comment %} if user is not authenticated, this section activates {% endcomment %}
+				
+				{% if page == 'home' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'home' %}">home</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'home' %}">home</a></li>
+				{% endif %}
+
+
+
+				{% if page == 'branch' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'branch' %}">branch</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'branch' %}">branch</a></li>
+				{% endif %}
+
+
+
+				{% if page == 'members' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'members' %}">members</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'members' %}">members</a></li>
+				{% endif %} 
+
+
+
+				{% if page == 'staff' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'staff' %}">staff</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'staff' %}">staff</a></li>
+				{% endif %}
+
+
+
+
+				{% if page == 'video' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'video' %}">video</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'video' %}">video</a></li>
+				{% endif %} 
+
+
+
+				{% if page == 'category' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'category' %}">category</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'category' %}">category</a></li>
+				{% endif %} 
+
+
+
+				{% if page == 'rented' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'rented_video' %}">rented</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'rented_video' %}">rented</a></li>
+				{% endif %}
+				 
+			</ul>
+
+		</div>
+
+  	</div>
+</nav>

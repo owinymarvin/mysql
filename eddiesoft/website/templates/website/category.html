@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+{% block content %}
+    <h1>List of Categories:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Category ID</th>
+                <th>Category Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category_item in category %}
+            <tr>
+                <td>{{ category_item.category_id }}</td>
+                <td>{{ category_item.category_name }}</td>
+                <td>{{ category_item.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

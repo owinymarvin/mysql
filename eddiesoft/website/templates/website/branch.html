@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+{% block content %}
+    <h1>List of Branches:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Branch Number</th>
+                <th>Telephone Number</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for branch_item in branch %}
+            <tr>
+                <td>{{ branch_item.branch_number }}</td>
+                <td>{{ branch_item.telephone_number }}</td>
+                <td>{{ branch_item.address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}
+

@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+{% block content %}
+    <h1>List of Staff</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Staff Number</th>
+                <th>Staff Names</th>
+                <th>Salary</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff_item in staff %}
+            <tr>
+                <td>{{ staff_item.staff_number }}</td>
+                <td>{{ staff_item.staff_names }}</td>
+                <td>{{ staff_item.salary }}</td>
+                <td>{{ staff_item.position }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

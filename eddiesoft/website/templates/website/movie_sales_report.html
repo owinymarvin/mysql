@@ -1,0 +1,38 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Movie Sales Report</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required min="1900-01-01">
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required min="1900-01-01">
+        <button type="submit">Generate Report</button>
+    </form>
+    
+    <h3>Movie Sales Table</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Movie Title</th>
+                <th>Sales Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.movie.title }}</td>
+                <td>${{ sale.amount }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No sales data available.</td>
+            </tr>
+            {% endfor %}
+        </tbody> 
+    </table>
+</div>
+{% endblock content %}

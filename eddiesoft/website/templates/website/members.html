@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+{% block content %}
+    <h1>List of members:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>member Number</th>
+                <th>first name</th>
+                <th>last name</th>
+                <th>address</th>
+                <th>date of registration</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for members_item in members %}
+            <tr>
+                <td>{{ members_item.member_number }}</td>
+                <td>{{ members_item.first_name }}</td>
+                <td>{{ members_item.last_name }}</td>
+                <td>{{ members_item.address }}</td>
+                <td>{{ members_item.date_of_registration }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
