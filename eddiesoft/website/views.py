@@ -1,3 +1,4 @@
+from django.db import connection
 from django.shortcuts import render
 from .models import *
 
@@ -91,6 +92,103 @@ def members(request):
     members = Members.objects.all()
     context = {'page': page, 'members': members}
     return render(request, 'website/members.html', context)
+
+
+def movie_rental_report(request):
+    page = 'movie_rental_report'
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                website_rentedvideo.rental_number,
+                website_video.title,
+                website_category.category_name,
+                website_category.price AS category_price,
+                website_rentedvideo.date_of_rent,
+                IFNULL(website_rentedvideo.date_of_return, CURDATE()) AS date_of_return,
+                DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent) AS days_taken,
+                (
+                    CASE
+                        WHEN website_category.price = '1200' THEN 1200
+                        WHEN website_category.price = '1500' THEN 1500
+                        WHEN website_category.price = '1800' THEN 1800
+                        WHEN website_category.price = '2000' THEN 2000
+                        WHEN website_category.price = '2500' THEN 2500
+                        WHEN website_category.price = '3000' THEN 3000
+                    END
+                ) * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent) AS daily_rental_cost,
+                website_video.copies - COALESCE(
+                    (SELECT COUNT(*) FROM website_rentedvideo AS r WHERE r.catalog_number_id = website_video.catalog_number AND r.date_of_return IS NULL), 0
+                ) AS remaining_copies
+            FROM website_rentedvideo
+            JOIN website_video ON website_rentedvideo.catalog_number_id = website_video.catalog_number
+            JOIN website_category ON website_video.category_id = website_category.category_id;
+        """)
+
+        db_query_report = cursor.fetchall()
+
+    context = {'page':page,'db_query_report': db_query_report}
+    return render(request, 'website/movie_rental_report.html', context)
+
+
+
+def earnings_summary(request):
+    page = 'earnings_summary'
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                SUM(
+                    CASE
+                        WHEN website_category.category_name = 'Children' THEN website_category.price * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent)
+                        ELSE 0
+                    END
+                ) AS children_earnings,
+                SUM(
+                    CASE
+                        WHEN website_category.category_name = 'Drama' THEN website_category.price * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent)
+                        ELSE 0
+                    END
+                ) AS drama_earnings,
+                SUM(
+                    CASE
+                        WHEN website_category.category_name = 'Horror' THEN website_category.price * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent)
+                        ELSE 0
+                    END
+                ) AS horror_earnings,
+                SUM(
+                    CASE
+                        WHEN website_category.category_name = 'Action' THEN website_category.price * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent)
+                        ELSE 0
+                    END
+                ) AS action_earnings,
+                SUM(
+                    CASE
+                        WHEN website_category.category_name = 'Adult' THEN website_category.price * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent)
+                        ELSE 0
+                    END
+                ) AS adult_earnings,
+                SUM(
+                    CASE
+                        WHEN website_category.category_name = 'Sci-Fi' THEN website_category.price * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent)
+                        ELSE 0
+                    END
+                ) AS scifi_earnings,
+                SUM(
+                    CASE
+                        WHEN website_category.category_name IN ('Children','Drama','Action','Horror', 'Adult','Sci-Fi') THEN website_category.price * DATEDIFF(IFNULL(website_rentedvideo.date_of_return, CURDATE()), website_rentedvideo.date_of_rent)
+                        ELSE 0
+                    END
+                ) AS total_earnings
+            FROM website_rentedvideo
+            JOIN website_video ON website_rentedvideo.catalog_number_id = website_video.catalog_number
+            JOIN website_category ON website_video.category_id = website_category.category_id;
+        """)
+
+        earnings_summary = cursor.fetchone()
+
+    context = {'page':page,'earnings_summary': earnings_summary}
+    return render(request, 'website/earnings_summary.html', context)
+
+
 
 
 def movie_sales_report(request):

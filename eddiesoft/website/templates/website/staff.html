@@ -13,6 +13,7 @@
             <tr>
                 <th>Staff Number</th>
                 <th>Staff Names</th>
+                <th>Branch id</th>
                 <th>Salary</th>
                 <th>Position</th>
             </tr>
@@ -22,10 +23,13 @@
             <tr>
                 <td>{{ staff_item.staff_number }}</td>
                 <td>{{ staff_item.staff_names }}</td>
+                <td>{{ staff_item.branch_id }}</td>
                 <td>{{ staff_item.salary }}</td>
                 <td>{{ staff_item.position }}</td>
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
 {% endblock content %}
+

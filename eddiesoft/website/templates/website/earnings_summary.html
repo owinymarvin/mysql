@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+
+{% block title %}
+    Movie Earnings Summary
+{% endblock title %}
+
+{% block content %}
+    <h1>Movie Earnings Summary</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category Name</th>
+                <th>Earnings</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Children</td>
+                <td>UGX {{ earnings_summary.0 }}</td>
+            </tr>
+            <tr>
+                <td>Drama</td>
+                <td>UGX {{ earnings_summary.1 }}</td>
+            </tr>
+            <tr>
+                <td>Horror</td>
+                <td>UGX {{ earnings_summary.2 }}</td>
+            </tr>
+            <tr>
+                <td>Action</td>
+                <td>UGX {{ earnings_summary.3 }}</td>
+            </tr>
+            <tr>
+                <td>Adult</td>
+                <td>UGX {{ earnings_summary.4 }}</td>
+            </tr>
+            <tr>
+                <td>Sci-Fi</td>
+                <td>UGX {{ earnings_summary.5 }}</td>
+            </tr>
+            <tr>
+                <td>Total Earnings</td>
+                <td>UGX {{ earnings_summary.6 }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock content %}

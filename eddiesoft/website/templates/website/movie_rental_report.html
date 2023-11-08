@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% block title %}
+    Movie Rental Report
+{% endblock title %}
+
+{% block content %}
+    <h1>Movie Rental Report</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rental Number</th>
+                <th>Movie Title</th>
+                <th>Category Name</th>
+                <th>Remaining Copies</th>
+                <th>Category Price</th>
+                <th>Date of Rent</th>
+                <th>Date of Return</th>
+                <th>Days Taken</th>
+                <th>Daily Rental Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in db_query_report %}
+                <tr>
+                    <td>{{ row.0 }}</td>
+                    <td>{{ row.1 }}</td>
+                    <td>{{ row.2 }}</td>
+                    <td>{{ row.8 }}</td> <!-- Place Remaining Copies after Category Name -->
+                    <td>{{ row.3 }}</td>
+                    <td>{{ row.4 }}</td>
+                    <td>{{ row.5 }}</td>
+                    <td>{{ row.6 }}</td>
+                    <td>{{ row.7 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}

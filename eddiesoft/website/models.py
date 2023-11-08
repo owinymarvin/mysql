@@ -38,7 +38,9 @@ class RentedVideo(models.Model):
     member_number = models.ForeignKey(Members, on_delete=models.CASCADE)
     catalog_number = models.ForeignKey(Video, on_delete=models.CASCADE)
     date_of_rent = models.DateField()
+    due_date = models.DateField()
     date_of_return = models.DateField()
+     # Add the due_date attribute
 
     def __str__(self):
         return f"Rental Number: {self.rental_number}"
@@ -58,6 +60,8 @@ class Staff(models.Model):
     staff_names = models.CharField(max_length=255)
     salary = models.IntegerField()
     position = models.CharField(max_length=255)
+    # Add foreign key for branch
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.staff_names
