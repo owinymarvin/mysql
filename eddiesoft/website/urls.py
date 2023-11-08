@@ -11,7 +11,13 @@ urlpatterns = [
     path('members/', views.members, name="members"),
     path('movie_rental_report/', views.movie_rental_report,name='movie_rental_report'),
     path('earnings_summary_report/', views.earnings_summary,name='earnings_summary'),
-    path('query_customer_video/', views.query_customer_video,name='query_customer_video'),
+    path('query_2/', views.query_2,name='query_2'),
+    path('query_3/', views.query_3, name='query_3'),
+    path('query_4/', views.query_4, name='query_4'),
+    path('query_5/', views.query_5, name='query_5'),
+
+
+
 
 
 ]

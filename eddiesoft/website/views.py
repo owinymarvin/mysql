@@ -67,7 +67,7 @@ def staff(request):
 
 
 def rentedvideo(request):
-    page='rented'
+    page='rented_video'
     rentedvideo = RentedVideo.objects.all()
     context = {'page': page, 'rentedvideo': rentedvideo}
     return render(request, 'website/rentedvideo.html', context)
@@ -213,8 +213,30 @@ def movie_sales_report(request):
     return render(request, 'website/movie_sales_report.html', context)
 
 
-def query_customer_video(request):
-    page = 'query_customer_video'
+def query_2(request):
+    page = 'query_2'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                m.first_name AS Customer_First_Name,
+                m.last_name AS Customer_Last_Name,
+                v.title AS Video_Title,
+                IFNULL(rv.date_of_return, CURDATE()) AS Due_Date
+            FROM
+                website_members AS m
+                LEFT JOIN website_rentedvideo AS rv ON m.member_number = rv.member_number_id
+                LEFT JOIN website_video AS v ON rv.catalog_number_id = v.catalog_number;
+        """)
+        
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_2': db_query_report}
+    return render(request, 'website/query_2.html', context)
+
+
+def query_3(request):
+    page = 'query_3'
 
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -224,18 +246,63 @@ def query_customer_video(request):
                 m.last_name AS Customer_Last_Name,
                 v.title AS Video_Title,
                 IFNULL(rv.date_of_return, CURDATE()) AS Due_Date,
+                (v.copies - COALESCE((SELECT COUNT(*) FROM website_rentedvideo AS r WHERE r.catalog_number_id = v.catalog_number AND r.date_of_return IS NULL), 0)) AS Copies_Remaining,                       
                 CASE
                     WHEN v.copies >= 1 THEN 'Available'
                     ELSE 'Unavailable'
                 END AS State,
-                (SELECT COUNT(*) FROM website_rentedvideo AS r WHERE r.member_number_id = m.member_number) AS Total_Videos_Borrowed
+                (SELECT COUNT(DISTINCT r.catalog_number_id) FROM website_rentedvideo AS r WHERE r.member_number_id = m.member_number AND r.date_of_return IS NULL) AS Total_Videos_Borrowed
             FROM
                 website_members AS m
                 LEFT JOIN website_rentedvideo AS rv ON m.member_number = rv.member_number_id
                 LEFT JOIN website_video AS v ON rv.catalog_number_id = v.catalog_number;
         """)
-        
+
         db_query_report = cursor.fetchall()
 
-    context = {'page': page, 'query_customer_video': db_query_report}
-    return render(request, 'website/query_customer_video.html', context)
+    context = {'page': page, 'query_3': db_query_report}
+    return render(request, 'website/query_3.html', context)
+
+
+def query_4(request):
+    page = 'query_4'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                video.catalog_number AS Movie_Number,
+                video.title AS Movie_Title,
+                category.price AS Movie_Cost
+            FROM website_video AS video
+            JOIN website_category AS category ON video.category_id = category.category_id
+            WHERE category.price > 1500
+            ORDER BY video.title ASC;
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_4': db_query_report}
+    return render(request, 'website/query_4.html', context)
+
+
+
+def query_5(request):
+    page = 'query_5'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+          SELECT
+            video.catalog_number AS Video_Number,
+            video.title AS Movie_Title,
+            rented.due_date AS Due_Date,
+            rented.date_of_return AS Date_of_Return,
+            DATEDIFF(rented.date_of_return, rented.due_date) AS Overdue_Days
+        FROM
+            website_video AS video
+            JOIN website_rentedvideo AS rented ON video.catalog_number = rented.catalog_number_id
+        WHERE
+            rented.date_of_return < rented.due_date;
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_5': db_query_report}
+    return render(request, 'website/query_5.html', context)

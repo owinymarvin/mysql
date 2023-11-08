@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+
+{% block title %}
+    query_customer_video
+{% endblock title %}
+    
+
+{% block content %}
+    <h1>query customer video:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Movie Number</th>
+                <th>Movie Title</th>
+                <th>Movie Cost</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for query in query_4 %}
+            <tr>
+                <td>{{ query.0 }}</td>
+                <td>{{ query.1 }}</td>
+                <td>{{ query.2 }}</td>
+
+              
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}
+

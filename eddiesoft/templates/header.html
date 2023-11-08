@@ -1,109 +1,51 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-
-	
-	<div class="container-fluid">
-
-
-		<a class="navbar-brand h1 mb-0" href="{% url 'home' %}">
-			{% comment %} <img src="" alt="logo image" style="width:35px; height: 35px"/> {% endcomment %}
-			EddieSoft - Group3</a>
-
-		<!-- button will appear when navbar is medium screen. (md) -->
-		<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-
-		<div class="collapse navbar-collapse" id="navbarNav">
-
-
-			<ul class="navbar-nav ms-auto">
-				{% comment %} bootstrap options activate depending on page were on {% endcomment %} 
-				{% comment %} if user is not authenticated, this section activates {% endcomment %}
-				
-				{% if page == 'home' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'home' %}">home</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'home' %}">home</a></li>
-				{% endif %}
-
-
-
-				{% if page == 'branch' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'branch' %}">branch</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'branch' %}">branch</a></li>
-				{% endif %}
-
-
-
-				{% if page == 'members' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'members' %}">members</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'members' %}">members</a></li>
-				{% endif %} 
+    <div class="container-fluid">
+        <a class="navbar-brand h1 mb-0" href="{% url 'home' %}">
+            EddieSoft - Group3
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item mx-4 ">
+                    <a class="nav-link {% if page == 'home' %} active {% endif %}" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item mx-4 ">
+                    <a class="nav-link {% if page == 'branch' %} active {% endif %}" href="{% url 'branch' %}">Branch</a>
+                </li>
+                <li class="nav-item mx-4 ">
+                    <a class="nav-link {% if page == 'members' %} active {% endif %}" href="{% url 'members' %}">Members</a>
+                </li>
+                <li class="nav-item mx-4 ">
+                    <a class="nav-link {% if page == 'staff' %} active {% endif %}" href="{% url 'staff' %}">Staff</a>
+                </li>
+                <li class="nav-item mx-4 ">
+                    <a class="nav-link {% if page == 'category' %} active {% endif %}" href="{% url 'category' %}">Category</a>
+                </li>
+                <li class="nav-item mx-4 ">
+                    <a class="nav-link {% if page == 'video' %} active {% endif %}" href="{% url 'video' %}">Video</a>
+                </li>
+                <li class="nav-item dropdown position-static ">
+                    <a class="nav-link dropdown-toggle  {% if page not in 'home,members,staff,category,video,branch' %} active bg-danger {% endif %}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Queries
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-left  w-100 " aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item {% if page == 'rented_video' %}active{% endif %}" href="{% url 'rented_video' %}">Rented Video</a>
+                        <a class="dropdown-item {% if page == 'movie_rental_report' %}active{% endif %}" href="{% url 'movie_rental_report' %}">Movie Rental Report</a>
+                        <a class="dropdown-item {% if page == 'earnings_summary' %}active{% endif %}" href="{% url 'earnings_summary' %}">Earnings Summary</a>
+                        <a class="dropdown-item {% if page == 'query_2' %}active{% endif %}" href="{% url 'query_2' %}">Query_2 (fname,lname,title,due_Date)</a>
+                        <a class="dropdown-item {% if page == 'query_3' %}active{% endif %}" href="{% url 'query_3' %}">Query_3 (customer_id,fname,lname,state,total_number_borrowed)</a>
+                        <a class="dropdown-item {% if page == 'query_4' %}active{% endif %}" href="{% url 'query_4' %}">Query_4 (movie_number, movie_title, movie_cost)</a>
+                        <a class="dropdown-item {% if page == 'query_5' %}active{% endif %}" href="{% url 'query_5' %}">Query_5 (returned after due_date)</a>
 
 
 
-				{% if page == 'staff' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'staff' %}">staff</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'staff' %}">staff</a></li>
-				{% endif %}
-
-
-
-
-				{% if page == 'video' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'video' %}">video</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'video' %}">video</a></li>
-				{% endif %} 
-
-
-
-				{% if page == 'category' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'category' %}">category</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'category' %}">category</a></li>
-				{% endif %} 
-
-
-
-				{% if page == 'rented' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'rented_video' %}">rented</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'rented_video' %}">rented</a></li>
-				{% endif %}
-
-
-
-				{% if page == 'movie_rental_report' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'movie_rental_report' %}">report</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'movie_rental_report' %}">report</a></li>
-				{% endif %}
-
-
-				{% if page == 'earnings_summary' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'earnings_summary' %}">summary</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'earnings_summary' %}">summary</a></li>
-				{% endif %}
-
-
-
-				{% if page == 'query_customer_video' %}
-					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'query_customer_video' %}">customer_video</a></li>
-				{% else %}
-					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'query_customer_video' %}">customer_video</a></li>
-				{% endif %}
-				 
-			</ul>
-
-		</div>
-
-  	</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>

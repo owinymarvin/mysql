@@ -16,13 +16,13 @@
                 <th>Lastname</th>
                 <th>Rented Video Name</th>
                 <th>Due Date</th>
+                <th>Copies Remaining</th>
                 <th>State</th>
-
-
+                <th>Borrowed <nobr>(Not Returned)</nobr></th>
             </tr>
         </thead>
         <tbody>
-            {% for query in query_customer_video %}
+            {% for query in query_3 %}
             <tr>
                 <td>{{ query.0 }}</td>
                 <td>{{ query.1 }}</td>
@@ -32,8 +32,6 @@
                 <td>{{ query.5}}</td>
                 <td>{{ query.6}}</td>
                 <td>{{ query.7}}</td>
-
-
 
             </tr>
             {% endfor %}
