@@ -211,3 +211,31 @@ def movie_sales_report(request):
 
     context = {'page': page, 'sales': sales}
     return render(request, 'website/movie_sales_report.html', context)
+
+
+def query_customer_video(request):
+    page = 'query_customer_video'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                m.member_number AS Customer_ID,
+                m.first_name AS Customer_First_Name,
+                m.last_name AS Customer_Last_Name,
+                v.title AS Video_Title,
+                IFNULL(rv.date_of_return, CURDATE()) AS Due_Date,
+                CASE
+                    WHEN v.copies >= 1 THEN 'Available'
+                    ELSE 'Unavailable'
+                END AS State,
+                (SELECT COUNT(*) FROM website_rentedvideo AS r WHERE r.member_number_id = m.member_number) AS Total_Videos_Borrowed
+            FROM
+                website_members AS m
+                LEFT JOIN website_rentedvideo AS rv ON m.member_number = rv.member_number_id
+                LEFT JOIN website_video AS v ON rv.catalog_number_id = v.catalog_number;
+        """)
+        
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_customer_video': db_query_report}
+    return render(request, 'website/query_customer_video.html', context)

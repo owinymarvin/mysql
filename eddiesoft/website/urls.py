@@ -11,5 +11,7 @@ urlpatterns = [
     path('members/', views.members, name="members"),
     path('movie_rental_report/', views.movie_rental_report,name='movie_rental_report'),
     path('earnings_summary_report/', views.earnings_summary,name='earnings_summary'),
+    path('query_customer_video/', views.query_customer_video,name='query_customer_video'),
+
 
 ]

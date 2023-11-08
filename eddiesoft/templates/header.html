@@ -92,6 +92,14 @@
 				{% else %}
 					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'earnings_summary' %}">summary</a></li>
 				{% endif %}
+
+
+
+				{% if page == 'query_customer_video' %}
+					<li class="nav-item mx-4"><a class="nav-link active" href="{% url 'query_customer_video' %}">customer_video</a></li>
+				{% else %}
+					<li class="nav-item mx-4"><a class="nav-link" href="{% url 'query_customer_video' %}">customer_video</a></li>
+				{% endif %}
 				 
 			</ul>
 
