@@ -1,54 +1,66 @@
 from django.db import connection
 from django.shortcuts import render
 from .models import *
+from django.db.models import Q
+
+
+from django.db.models import Q
 
 
 def home(request):
-    page='home'
+    page = 'home'
 
     if request.method == 'POST':
-        branch_number = request.POST['branch_number']
-        if branch_number:
-            branch_search = Branch.objects.filter(branch_number = branch_number)
-            context = {'page':'branch','branch': branch_search}
-            return render(request, 'website/branch.html', context)
-        
+        branch_number = request.POST.get('branch_number')
+        staff_number = request.POST.get('staff_number')
+        rented_video = request.POST.get('rented_video')
+        video = request.POST.get('video')
+        category = request.POST.get('category')
+        members = request.POST.get('members')
 
-        staff_number = request.POST['staff_number']
+        if branch_number:
+            branch_search = Branch.objects.filter(branch_number=branch_number)
+            context = {'page': 'branch', 'branch': branch_search}
+            return render(request, 'website/branch.html', context)
+
         if staff_number:
-            staff_search = Staff.objects.filter(staff_number=staff_number)
+            staff_search = Staff.objects.filter(
+                Q(staff_names__icontains=staff_number))
             context = {'page': 'staff', 'staff': staff_search}
             return render(request, 'website/staff.html', context)
-        
 
-        rented_video = request.POST['rented_video']
         if rented_video:
-            rented_video_search = RentedVideo.objects.filter(rental_number=rented_video)
-            context = {'page':'rented', 'rentedvideo': rented_video_search}
+            rented_video_search = RentedVideo.objects.filter(
+                rental_number=rented_video)
+            context = {'page': 'rented', 'rentedvideo': rented_video_search}
             return render(request, 'website/rentedvideo.html', context)
-        
 
-        video = request.POST['video']
         if video:
-            video_search = Video.objects.filter(catalog_number = video)
+            video_search = Video.objects.filter(
+                Q(title__icontains=video) | Q(
+                    actor__icontains=video)
+            )
             context = {'page': 'video', 'video': video_search}
             return render(request, 'website/video.html', context)
-        
 
-        category = request.POST['category']
+
         if category:
-            category_search = Category.objects.filter(category_id = category)
+            category_search = Category.objects.filter(
+                Q(category_id__icontains=video) | Q(category_name__icontains=video)
+            )
             context = {'page': 'category', 'category': category_search}
             return render(request, 'website/category.html', context)
-        
-        members = request.POST['members']
+
+
         if members:
-            members_search = Members.objects.filter(member_number=members)
+            members_search = Members.objects.filter(
+                Q(member_number__icontains=members) | Q(first_name__icontains=members) | Q(last_name__icontains=members)
+            )
             context = {'page': 'members', 'members': members_search}
             return render(request, 'website/members.html', context)
 
-        
-    context = {'page':page}
+
+    context = {'page': page}
     return render(request, 'website/home.html', context)
 
 
@@ -60,35 +72,35 @@ def branch(request):
 
 
 def staff(request):
-    page='staff'
+    page = 'staff'
     staff = Staff.objects.all()
     context = {'page': page, 'staff': staff}
     return render(request, 'website/staff.html', context)
 
 
 def rentedvideo(request):
-    page='rented_video'
+    page = 'rented_video'
     rentedvideo = RentedVideo.objects.all()
     context = {'page': page, 'rentedvideo': rentedvideo}
     return render(request, 'website/rentedvideo.html', context)
 
 
 def video(request):
-    page='video'
+    page = 'video'
     video = Video.objects.all()
     context = {'page': page, 'video': video}
     return render(request, 'website/video.html', context)
 
 
 def category(request):
-    page='category'
+    page = 'category'
     category = Category.objects.all()
     context = {'page': page, 'category': category}
     return render(request, 'website/category.html', context)
 
 
 def members(request):
-    page='members'
+    page = 'members'
     members = Members.objects.all()
     context = {'page': page, 'members': members}
     return render(request, 'website/members.html', context)
@@ -126,9 +138,8 @@ def movie_rental_report(request):
 
         db_query_report = cursor.fetchall()
 
-    context = {'page':page,'db_query_report': db_query_report}
+    context = {'page': page, 'db_query_report': db_query_report}
     return render(request, 'website/movie_rental_report.html', context)
-
 
 
 def earnings_summary(request):
@@ -185,14 +196,12 @@ def earnings_summary(request):
 
         earnings_summary = cursor.fetchone()
 
-    context = {'page':page,'earnings_summary': earnings_summary}
+    context = {'page': page, 'earnings_summary': earnings_summary}
     return render(request, 'website/earnings_summary.html', context)
 
 
-
-
 def movie_sales_report(request):
-    page='movie_sales_report'
+    page = 'movie_sales_report'
     if request.method == "POST":
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
@@ -202,7 +211,8 @@ def movie_sales_report(request):
         sales = RentedVideo.objects.filter(
             date_of_rent__range=[start_date, end_date]
         ).extra(
-            select={'sales_amount': 'category_price * DATEDIFF(IFNULL(date_of_return, CURDATE()), date_of_rent)'}
+            select={
+                'sales_amount': 'category_price * DATEDIFF(IFNULL(date_of_return, CURDATE()), date_of_rent)'}
         )
         print(f"Sales Query: {sales.query}")
 
@@ -228,7 +238,7 @@ def query_2(request):
                 LEFT JOIN website_rentedvideo AS rv ON m.member_number = rv.member_number_id
                 LEFT JOIN website_video AS v ON rv.catalog_number_id = v.catalog_number;
         """)
-        
+
         db_query_report = cursor.fetchall()
 
     context = {'page': page, 'query_2': db_query_report}
@@ -284,7 +294,6 @@ def query_4(request):
     return render(request, 'website/query_4.html', context)
 
 
-
 def query_5(request):
     page = 'query_5'
 
@@ -300,9 +309,87 @@ def query_5(request):
             website_video AS video
             JOIN website_rentedvideo AS rented ON video.catalog_number = rented.catalog_number_id
         WHERE
-            rented.date_of_return < rented.due_date;
+            rented.date_of_return > rented.due_date;
         """)
         db_query_report = cursor.fetchall()
 
     context = {'page': page, 'query_5': db_query_report}
     return render(request, 'website/query_5.html', context)
+
+
+def query_6(request):
+    page = 'query_6'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                website_video.catalog_number,
+                website_video.title AS Movie_Title,
+                website_category.price AS Movie_Cost,
+                website_category.category_name AS Genre
+            FROM website_video
+            JOIN website_category ON website_video.category_id = website_category.category_id
+            WHERE website_video.title LIKE '%s';
+
+
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_6': db_query_report}
+    return render(request, 'website/query_6.html', context)
+
+
+def query_8(request):
+    page = 'query_8'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                m.member_number AS Membership_Number,
+                m.first_name AS First_Name,
+                m.last_name AS Last_Name
+            FROM
+                website_members AS m
+            WHERE
+                EXISTS (
+                    SELECT 1
+                    FROM website_rentedvideo AS rv
+                    WHERE rv.member_number_id = m.member_number
+                )
+            GROUP BY
+                m.member_number, m.first_name, m.last_name;
+
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_8': db_query_report}
+    return render(request, 'website/query_8.html', context)
+
+
+def query_13(request):
+    page = 'query_13'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                v.catalog_number AS Video_Number,
+                v.title AS Movie_Title,
+                v.copies - COALESCE(rv.rented_copies, 0) AS Copies_Available
+            FROM
+                website_video AS v
+            LEFT JOIN (
+                SELECT
+                    catalog_number_id,
+                    COUNT(*) AS rented_copies
+                FROM
+                    website_rentedvideo
+                WHERE
+                    date_of_return IS NULL
+                GROUP BY
+                    catalog_number_id
+            ) AS rv ON v.catalog_number = rv.catalog_number_id;
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_13': db_query_report}
+    return render(request, 'website/query_13.html', context)

@@ -15,9 +15,8 @@ urlpatterns = [
     path('query_3/', views.query_3, name='query_3'),
     path('query_4/', views.query_4, name='query_4'),
     path('query_5/', views.query_5, name='query_5'),
-
-
-
-
+    path('query_6/', views.query_6, name='query_6'),
+    path('query_8/', views.query_8, name='query_8'),
+    path('query_13/', views.query_13, name='query_13'),
 
 ]

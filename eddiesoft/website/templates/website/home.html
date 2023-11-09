@@ -12,16 +12,13 @@
     <form action="" method="post">
         {% csrf_token %}
         <h1 class="title mb-4"><a href="#">branch search</a></h1>
-
-        <li><input type="text" name="branch_number" placeholder="Enter branch number"></li>
-        <li><input type="text" name="staff_number" placeholder="Enter staff number"></li>
-        <li><input type="text" name="rented_video" placeholder="Enter rented video number"></li>
-        <li><input type="text" name="video" placeholder="Enter video number"></li>
-        <li><input type="text" name="category" placeholder="Enter category id"></li>
-        <li><input type="text" name="members" placeholder="Enter member number"></li>
-
-
-
+        
+        <li><input type="text" name="branch_number" placeholder="Enter branch number"></li><br>
+        <li><input type="text" name="staff_number" placeholder="Search for Staff Name or Number"></li><br>
+        <li><input type="text" name="rented_video" placeholder="Enter rented video number"></li><br>
+        <li><input type="text" name="video" placeholder="Video title or Actor"></li><br>
+        <li><input type="text" name="category" placeholder="Enter category id"></li><br>
+        <li><input type="text" name="members" placeholder="Enter member number"></li><br>
 
         <input type="submit" value="SEARCH">
     </form>
