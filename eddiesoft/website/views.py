@@ -339,6 +339,35 @@ def query_6(request):
     return render(request, 'website/query_6.html', context)
 
 
+def query_7(request):
+    page = 'query_7'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                m.member_number AS Membership_Number,
+                m.first_name AS First_Name,
+                m.last_name AS Last_Name
+            FROM
+                website_members AS m
+            WHERE
+                EXISTS (
+                    SELECT 1
+                    FROM website_rentedvideo AS rv
+                    WHERE rv.member_number_id = m.member_number
+                )
+            GROUP BY
+                m.member_number, m.first_name, m.last_name;
+
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_7': db_query_report}
+    return render(request, 'website/query_7.html', context)
+
+
+
+
 def query_8(request):
     page = 'query_8'
 
@@ -364,6 +393,115 @@ def query_8(request):
 
     context = {'page': page, 'query_8': db_query_report}
     return render(request, 'website/query_8.html', context)
+
+
+def query_9(request):
+    page = 'query_9'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                m.member_number AS Membership_Number,
+                m.first_name AS First_Name,
+                m.last_name AS Last_Name
+            FROM
+                website_members AS m
+            WHERE
+                EXISTS (
+                    SELECT 1
+                    FROM website_rentedvideo AS rv
+                    WHERE rv.member_number_id = m.member_number
+                )
+            GROUP BY
+                m.member_number, m.first_name, m.last_name;
+
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_9': db_query_report}
+    return render(request, 'website/query_9.html', context)
+
+
+def query_10(request):
+    page = 'query_10'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                m.member_number AS Membership_Number,
+                m.first_name AS First_Name,
+                m.last_name AS Last_Name
+            FROM
+                website_members AS m
+            WHERE
+                EXISTS (
+                    SELECT 1
+                    FROM website_rentedvideo AS rv
+                    WHERE rv.member_number_id = m.member_number
+                )
+            GROUP BY
+                m.member_number, m.first_name, m.last_name;
+
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_10': db_query_report}
+    return render(request, 'website/query_10.html', context)
+
+
+
+
+def query_11(request):
+    page = 'query_11'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                m.member_number AS Membership_Number,
+                m.first_name AS First_Name,
+                m.last_name AS Last_Name
+            FROM
+                website_members AS m
+            WHERE
+                EXISTS (
+                    SELECT 1
+                    FROM website_rentedvideo AS rv
+                    WHERE rv.member_number_id = m.member_number
+                )
+            GROUP BY
+                m.member_number, m.first_name, m.last_name;
+
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_11': db_query_report}
+    return render(request, 'website/query_11.html', context)
+
+
+def query_12(request):
+    page = 'query_12'
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+           SELECT
+            video.catalog_number AS Video_Number,
+            video.title AS Movie_Title,
+            rented.due_date AS Due_Date,
+            rented.date_of_return AS Date_of_Return,
+            DATEDIFF(rented.date_of_return, rented.due_date) AS Overdue_Days
+        FROM
+            website_video AS video
+            JOIN website_rentedvideo AS rented ON video.catalog_number = rented.catalog_number_id
+        WHERE
+            rented.date_of_return > rented.due_date;
+
+        """)
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'query_12': db_query_report}
+    return render(request, 'website/query_12.html', context)
+
+
 
 
 def query_13(request):

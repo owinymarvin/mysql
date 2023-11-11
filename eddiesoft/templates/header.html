@@ -33,15 +33,20 @@
                         Queries
                     </a>
                     <div class="dropdown-menu dropdown-menu-left  w-100 " aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item {% if page == 'rented_video' %}active{% endif %}" href="{% url 'rented_video' %}">Rented Video</a><br>
-                        <a class="dropdown-item {% if page == 'movie_rental_report' %}active{% endif %}" href="{% url 'movie_rental_report' %}">Movie Rental Report</a><br>
-                        <a class="dropdown-item {% if page == 'earnings_summary' %}active{% endif %}" href="{% url 'earnings_summary' %}">Earnings Summary</a><br>
-                        <a class="dropdown-item {% if page == 'query_2' %}active{% endif %}" href="{% url 'query_2' %}">Query_2 (fname,lname,title,due_Date)</a><br>
-                        <a class="dropdown-item {% if page == 'query_3' %}active{% endif %}" href="{% url 'query_3' %}">Query_3 (customer_id,fname,lname,state,total_number_borrowed)</a><br>
-                        <a class="dropdown-item {% if page == 'query_4' %}active{% endif %}" href="{% url 'query_4' %}">Query_4 (movie_number, movie_title, movie_cost)</a><br>
-                        <a class="dropdown-item {% if page == 'query_5' %}active{% endif %}" href="{% url 'query_5' %}">Query_5 (returned after due_date)</a><br>
-                        <a class="dropdown-item {% if page == 'query_6' %}active{% endif %}" href="{% url 'query_6' %}">Query_6 (movie_number, movie_title, movie_cost, genre end with 's')</a><br>
-                        <a class="dropdown-item {% if page == 'query_8' %}active{% endif %}" href="{% url 'query_8' %}">Query_8 (EXISTS operator, membership_number, first_name, last_name, balance_of_memberships)</a><br>
+                        <a class="dropdown-item {% if page == 'rented_video' %}active{% endif %}" href="{% url 'rented_video' %}">Rented Video</a>
+                        <a class="dropdown-item {% if page == 'movie_rental_report' %}active{% endif %}" href="{% url 'movie_rental_report' %}">Movie Rental Report</a>
+                        <a class="dropdown-item {% if page == 'earnings_summary' %}active{% endif %}" href="{% url 'earnings_summary' %}">Earnings Summary</a>
+                        <a class="dropdown-item {% if page == 'query_2' %}active{% endif %}" href="{% url 'query_2' %}">Query_2 (fname,lname,title,due_Date)</a>
+                        <a class="dropdown-item {% if page == 'query_3' %}active{% endif %}" href="{% url 'query_3' %}">Query_3 (customer_id,fname,lname,state,total_number_borrowed)</a>
+                        <a class="dropdown-item {% if page == 'query_4' %}active{% endif %}" href="{% url 'query_4' %}">Query_4 (movie_number, movie_title, movie_cost)</a>
+                        <a class="dropdown-item {% if page == 'query_5' %}active{% endif %}" href="{% url 'query_5' %}">Query_5 (returned after due_date)</a>
+                        <a class="dropdown-item {% if page == 'query_6' %}active{% endif %}" href="{% url 'query_6' %}">Query_6 (movie_number, movie_title, movie_cost, genre end with 's')</a>
+                        <a class="dropdown-item {% if page == 'query_7' %}active{% endif %}" href="{% url 'query_7' %}">Query_7 (using GROUPBY movie_genre, average_price_rental as “Average RENTAL FEE” where the average rental fee > 1600)</a>
+                        <a class="dropdown-item {% if page == 'query_8' %}active{% endif %}" href="{% url 'query_8' %}">Query_8 (EXISTS operator, membership_number, first_name, last_name, balance_of_memberships)</a>
+                        <a class="dropdown-item {% if page == 'query_9' %}active{% endif %}" href="{% url 'query_9' %}">Query_9 (using ( >ALL) videos with movie_cost greater > all_movie_cost for genre “Drama”.)</a>
+                        <a class="dropdown-item {% if page == 'query_10' %}active{% endif %}" href="{% url 'query_10' %}">Query_10 (use IN operator to display movie_title, movie_year, price, description, price_rental_fee for genres Sci-Fi, Adult, Drama)</a>
+                        <a class="dropdown-item {% if page == 'query_11' %}active{% endif %}" href="{% url 'query_11' %}">Query_11 (using EXISTS operator, membership_number, first_name, last_name, balance_of_memberships(who have rented movies))</a>
+                        <a class="dropdown-item {% if page == 'query_12' %}active{% endif %}" href="{% url 'query_12' %}">Query_12 (returned after due_date)</a>
                         <a class="dropdown-item {% if page == 'query_13' %}active{% endif %}" href="{% url 'query_13' %}">Query_13 (NOT EXISTS operator,movie_number, movie_title, movie_year NO VIDEO)</a>
 
                     </div>
