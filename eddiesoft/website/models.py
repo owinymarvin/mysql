@@ -40,7 +40,8 @@ class RentedVideo(models.Model):
     catalog_number = models.ForeignKey(Video, on_delete=models.CASCADE)
     date_of_rent = models.DateField()
     due_date = models.DateField()
-    date_of_return = models.DateField()
+    date_of_return = models.DateField(null=True, blank=True)
+
      # Add the due_date attribute
 
     def __str__(self):

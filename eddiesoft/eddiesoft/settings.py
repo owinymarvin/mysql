@@ -80,9 +80,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'eddiesoftdb',
-        'USER': 'root',
-        'PASSWORD': 'popin',
-        'HOST': 'localhost',  # Change to your MySQL server's hostname if necessary
+        'USER': 'phionah',
+        'PASSWORD': 'popin@123',
+        'HOST': '', # localhost
         'PORT': '3306',  
     }
 }

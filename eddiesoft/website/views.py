@@ -376,7 +376,12 @@ def query_8(request):
             SELECT
                 m.member_number AS Membership_Number,
                 m.first_name AS First_Name,
-                m.last_name AS Last_Name
+                m.last_name AS Last_Name,
+                10 - COALESCE((
+                    SELECT COUNT(*)
+                    FROM website_rentedvideo AS rv
+                    WHERE rv.member_number_id = m.member_number
+                ), 0) AS Balance_of_Membership
             FROM
                 website_members AS m
             WHERE
@@ -384,10 +389,7 @@ def query_8(request):
                     SELECT 1
                     FROM website_rentedvideo AS rv
                     WHERE rv.member_number_id = m.member_number
-                )
-            GROUP BY
-                m.member_number, m.first_name, m.last_name;
-
+                );
         """)
         db_query_report = cursor.fetchall()
 
@@ -401,19 +403,18 @@ def query_9(request):
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT
-                m.member_number AS Membership_Number,
-                m.first_name AS First_Name,
-                m.last_name AS Last_Name
-            FROM
-                website_members AS m
-            WHERE
-                EXISTS (
-                    SELECT 1
-                    FROM website_rentedvideo AS rv
-                    WHERE rv.member_number_id = m.member_number
-                )
-            GROUP BY
-                m.member_number, m.first_name, m.last_name;
+                v.catalog_number AS Video_Number,
+                v.title AS Movie_Title,
+                v.category_id AS Category_ID,
+                v.price AS Movie_Cost
+            FROM website_video AS v
+            WHERE v.price > ALL (
+                SELECT MAX(category.price)
+                FROM website_video AS mv
+                INNER JOIN website_category AS category ON mv.category_id = category.category_id
+                WHERE category.category_name = 'Drama'
+            );
+            
 
         """)
         db_query_report = cursor.fetchall()
