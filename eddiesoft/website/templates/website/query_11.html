@@ -2,29 +2,36 @@
 
 
 {% block title %}
-    query_customer_video
+    Query 11: Balance of Memberships
 {% endblock title %}
     
 
 {% block content %}
-    <h1>query customer video:</h1>
+    <h1 class="mb-4 text-center">Query 11: Balance of Memberships</h1>
+
     <table>
         <thead>
             <tr>
-                <th>Movie Number</th>
-                <th>Movie Title</th>
-                <th>Movie Cost</th>
-                <th>Genre</th>
+                <th>Membership Number</th>
+                <th>first Name</th>
+                <th>Last Name</th>
+                <th>Balance of Memberships</th>
                
             </tr>
         </thead>
         <tbody>
-            {% for query in query_6 %}
+            {% for query in query_11 %}
             <tr>
                 <td>{{ query.0 }}</td>
                 <td>{{ query.1 }}</td>
                 <td>{{ query.2 }}</td>
-                <td>{{ query.3 }}</td>
+                <td>
+                    {% if query.3 == 1 %}
+                        1 Movie Left
+                    {% else %}
+                        {{ query.3 }} Movies Left
+                    {% endif %}
+                </td>
 
    
             </tr>

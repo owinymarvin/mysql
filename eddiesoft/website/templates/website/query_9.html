@@ -2,18 +2,20 @@
 
 
 {% block title %}
-    Query 9: category with price > 1500
+    Query 9: Movie cost greater than "Drama" genre
 {% endblock title %}
     
 
 {% block content %}
-    <h1 class="text-center my-4">Query 9: category with price > 1500</h1>
+    <h1 class="text-center my-4">Query 9: Movie cost greater than "Drama" genre</h1>
     <table>
         <thead>
             <tr>
-                <th>category id</th>
-                <th>category name</th>
-                <th>Price</th>
+                <th>Video Title</th>
+                <th>Movie Title</th>
+                <th>category Name</th>
+                <th>Movie Cost</th>
+
             </tr>
         </thead>
         <tbody>
@@ -22,6 +24,8 @@
                 <td>{{ query.0 }}</td>
                 <td>{{ query.1 }}</td>
                 <td>{{ query.2 }}</td>
+                <td>{{ query.3 }}</td>
+
 
    
             </tr>

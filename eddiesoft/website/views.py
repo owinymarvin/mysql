@@ -399,16 +399,23 @@ def query_9(request):
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT
-                website_category.category_id as category_id,
-                website_category.category_name as category_name,
-                website_category.price as price
+                video.catalog_number AS Video_Number,
+                video.title AS Movie_Title,
+                website_category.category_name AS Category_Name,
+                website_category.price AS Movie_Cost
             FROM
-                website_category
+                website_video AS video
+            JOIN 
+                website_category ON website_category.category_id = video.category_id
             WHERE
-                website_category.price > 1500
-            GROUP BY
-                category_id,category_name,price;
-            
+                website_category.price > ALL (
+                    SELECT
+                        MAX(category.price)
+                    FROM
+                        website_category AS category
+                    WHERE
+                        category.category_name = 'Drama'
+                );
 
         """)
         db_query_report = cursor.fetchall()
@@ -423,20 +430,16 @@ def query_10(request):
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT
-                m.member_number AS Membership_Number,
-                m.first_name AS First_Name,
-                m.last_name AS Last_Name
+                video.title AS Movie_Title,
+                video.movie_year AS Movie_Year,
+                category.category_name AS Category_Name,
+                category.price AS Category_Price
             FROM
-                website_members AS m
+                website_video AS video
+            JOIN 
+                website_category AS category ON video.category_id = category.category_id
             WHERE
-                EXISTS (
-                    SELECT 1
-                    FROM website_rentedvideo AS rv
-                    WHERE rv.member_number_id = m.member_number
-                )
-            GROUP BY
-                m.member_number, m.first_name, m.last_name;
-
+                category.category_name IN ('Sci-Fi', 'Adult', 'Drama');
         """)
         db_query_report = cursor.fetchall()
 
@@ -454,7 +457,12 @@ def query_11(request):
             SELECT
                 m.member_number AS Membership_Number,
                 m.first_name AS First_Name,
-                m.last_name AS Last_Name
+                m.last_name AS Last_Name,
+                10 - COALESCE((
+                    SELECT COUNT(*)
+                    FROM website_rentedvideo AS rv
+                    WHERE rv.member_number_id = m.member_number
+                ), 0) AS Balance_of_Membership
             FROM
                 website_members AS m
             WHERE
@@ -462,10 +470,7 @@ def query_11(request):
                     SELECT 1
                     FROM website_rentedvideo AS rv
                     WHERE rv.member_number_id = m.member_number
-                )
-            GROUP BY
-                m.member_number, m.first_name, m.last_name;
-
+                );
         """)
         db_query_report = cursor.fetchall()
 
@@ -504,23 +509,24 @@ def query_13(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT
-                v.catalog_number AS Video_Number,
-                v.title AS Movie_Title,
-                v.copies - COALESCE(rv.rented_copies, 0) AS Copies_Available
-            FROM
-                website_video AS v
-            LEFT JOIN (
+                       
+        SELECT
+            v.catalog_number AS Video_Number,
+            v.title AS Movie_Title,
+            v.movie_year AS Movie_Year
+        FROM
+            website_video AS v
+        WHERE
+            v.copies = (
                 SELECT
-                    catalog_number_id,
-                    COUNT(*) AS rented_copies
+                    COUNT(*)
                 FROM
-                    website_rentedvideo
+                    website_rentedvideo AS rv
                 WHERE
-                    date_of_return IS NULL
-                GROUP BY
-                    catalog_number_id
-            ) AS rv ON v.catalog_number = rv.catalog_number_id;
+                    rv.catalog_number_id = v.catalog_number
+                    AND rv.date_of_return IS NULL
+            );
+
         """)
         db_query_report = cursor.fetchall()
 

@@ -7,19 +7,21 @@
     
 
 {% block content %}
-    <h1>query customer video:</h1>
+
+    <h1 class="text-center my-4">Query 10: IN operator, Sci-Fi, Adult, Drama</h1>
+    
     <table>
         <thead>
             <tr>
-                <th>Movie Number</th>
-                <th>Movie Title</th>
-                <th>Movie Cost</th>
-                <th>Genre</th>
+                <th>Movie_Title</th>
+                <th>Movie_Year</th>
+                <th>Category_Name</th>
+                <th>Category_Price</th>
                
             </tr>
         </thead>
         <tbody>
-            {% for query in query_6 %}
+            {% for query in query_10 %}
             <tr>
                 <td>{{ query.0 }}</td>
                 <td>{{ query.1 }}</td>
