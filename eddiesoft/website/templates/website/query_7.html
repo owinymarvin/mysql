@@ -2,29 +2,26 @@
 
 
 {% block title %}
-    query_customer_video
+    Query 7: category with price > 1600
 {% endblock title %}
     
 
 {% block content %}
-    <h1>query customer video:</h1>
+    <h1 class="text-center my-4">Query 7: category with price > 1600</h1>
     <table>
         <thead>
             <tr>
-                <th>Movie Number</th>
-                <th>Movie Title</th>
-                <th>Movie Cost</th>
-                <th>Genre</th>
-               
+                <th>category id</th>
+                <th>category name</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>
-            {% for query in query_6 %}
+            {% for query in query_7 %}
             <tr>
                 <td>{{ query.0 }}</td>
                 <td>{{ query.1 }}</td>
                 <td>{{ query.2 }}</td>
-                <td>{{ query.3 }}</td>
 
    
             </tr>
