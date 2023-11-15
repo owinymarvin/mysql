@@ -7,28 +7,32 @@
     
 
 {% block content %}
-    <h1>List of rented videos</h1>
+    <h1 class="text-center my-4">List of rented videos</h1>
     <table>
         <thead>
             <tr>
                 <th>rental Number</th>
+                <th>Movie Title</th>
+                <th>Members Names</th>
+                <th>Category Name</th>
                 <th>Rented On</th>
-                   <th>Due Date</th>
+                <th>Due Date</th>
                 <th>Returned On</th>
-                <th>Catalog Number</th>
-                <th>Member Number</th>
              
             </tr>
         </thead>
         <tbody>
             {% for rentedvideo_item in rentedvideo %}
             <tr>
-                <td>{{ rentedvideo_item.rental_number }}</td>
-                <td>{{ rentedvideo_item.date_of_rent }}</td>
-                 <td>{{ rentedvideo_item.due_date}}</td>
-                <td>{{ rentedvideo_item.date_of_return }}</td>
-                <td>{{ rentedvideo_item.catalog_number_id }}</td>
-                <td>{{ rentedvideo_item.member_number_id }}</td>
+                <td>{{ rentedvideo_item.0 }}</td>
+                <td>{{ rentedvideo_item.1 }}</td>
+                 <td>{{ rentedvideo_item.2}} {{ rentedvideo_item.3 }}</td>
+                <td>{{ rentedvideo_item.4 }}</td>
+                <td>{{ rentedvideo_item.5 }}</td>
+                <td>{{ rentedvideo_item.6 }}</td>
+
+                <td>{{ rentedvideo_item.7 }}</td>
+            
                 
             </tr>
             {% endfor %}

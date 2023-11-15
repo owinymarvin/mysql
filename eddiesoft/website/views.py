@@ -80,9 +80,31 @@ def staff(request):
 
 def rentedvideo(request):
     page = 'rented_video'
-    rentedvideo = RentedVideo.objects.all()
-    context = {'page': page, 'rentedvideo': rentedvideo}
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                rv.rental_number AS Rental_Number,
+                v.title AS Movie_Title,
+                m.first_name as First_Name,
+                m.last_name as Last_Name,
+                cat.category_name AS Category_Name,
+                rv.date_of_rent AS Date_of_Rent,
+                rv.due_date AS Due_Date,
+                IFNULL(rv.date_of_return, CURDATE()) AS Date_of_Return
+            FROM
+                website_rentedvideo AS rv
+                LEFT JOIN website_video AS v ON rv.catalog_number_id = v.catalog_number
+                LEFT JOIN website_members AS m ON rv.member_number_id = m.member_number
+                LEFT JOIN website_category AS cat ON v.category_id = cat.category_id;     
+        """)
+
+        db_query_report = cursor.fetchall()
+
+    context = {'page': page, 'rentedvideo': db_query_report}
     return render(request, 'website/rentedvideo.html', context)
+
+    
 
 
 def video(request):
